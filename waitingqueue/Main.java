@@ -24,8 +24,7 @@ public class Main { // no static classes make me sad. Who claimed that java was 
         String input = "";
         ArrayList<Passenger> passengers = new ArrayList<Passenger>();
         Passenger driver = new Passenger("DEFAULT");
-        input = ConsoleHelper.Read("Enter passenger name #" + (passengers.size() + 1) + " or X to finish: ")
-        while ((input) != "X" && input.strip() != "") {
+        while ((input = ConsoleHelper.Read("Enter passenger name #" + (passengers.size() + 1) + " or X to finish: ")) != "X" && input.strip() != "") {
             passengers.add(new Passenger(input.strip()));
         }
         while ((input = ConsoleHelper.Read("Enter driver name: ")).strip() != "") {
