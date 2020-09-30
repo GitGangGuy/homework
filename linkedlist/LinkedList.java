@@ -1,21 +1,54 @@
 package linkedlist;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 
 final public class LinkedList<T> {
-    private T[] objects;
+    private T type;
+    private T[] items;
 
-    private void Rewrite(Class<T> _objects) {
+    private Class<? extends Object> typeToClass() {
+        return type.getClass();
+    }
+
+    private T[] TypeArray(int _length) {
         @SuppressWarnings("unchecked")
-        final T[] objects = (T[]) Array.newInstance(_objects, _objects.length);
-        this.objects = objects;
+        final T[] __array = (T[]) Array.newInstance(typeToClass(), _length);
+        return __array;
     }
 
-    public LinkedList(Class<T> _val, int _size) {
-
+    private void Reset() {
+        this.items = TypeArray(0);
     }
 
-    public void add(T item) {
-
+    private void addItem(T _item) {
+        final int size = items.length + 1;
+        final T[] __items = Arrays.copyOf(items, size);
+        __items[size] = _item;
+        items = __items;
     }
+
+    private void InsertItem(T _item, int _pos) {
+        final int size = items.length + 1;
+        final T[] __items = Arrays.copyOfRange(items, 0, _pos);
+        __items[_pos] = _item;
+        // todo
+        items = __items;
+    }
+
+    public LinkedList() {
+        Reset();
+    }
+
+    public void add(T _item) {
+        addItem(_item);
+    }
+
+    public void addLast(T _item) {
+        addItem(_item);
+    }
+
+    public void addFirst()
+
+    public void remove()
 }
