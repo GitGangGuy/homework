@@ -12,43 +12,74 @@ final public class LinkedList<T> {
     }
 
     private T[] TypeArray(int _length) {
-        @SuppressWarnings("unchecked")
-        final T[] __array = (T[]) Array.newInstance(typeToClass(), _length);
+        try {
+            @SuppressWarnings("unchecked")
+            final T[] __array = (T[]) Array.newInstance(typeToClass(), _length);
+            return __array;
+        } catch (Exception e) {
+            throw new RuntimeException("Passed invalid type for generic array");
+        }
+    }
+
+    private T[] Reset() {
+        return TypeArray(0);
+    }
+
+    private T[] AddItem(T[] _array, T _item) {
+        final int __size = _array.length + 1;
+        T[] __array = Arrays.copyOf(_array, __size);
+        __array[__size - 1] = _item;
         return __array;
     }
 
-    private void Reset() {
-        this.items = TypeArray(0);
+    private T[] InsertItem(T[] _array, T _item, int _pos) {
+        final int __size = _array.length + 1;
+        T[] __array = AddItem(Arrays.copyOf(_array, _pos), _item);
+        __array = Arrays.copyOf(__array, __size);
+        for (int i = _pos + 1; i < __size; i++) {
+            __array[i] = _array[i];
+        }
+        return __array;
     }
 
-    private void addItem(T _item) {
-        final int size = items.length + 1;
-        final T[] __items = Arrays.copyOf(items, size);
-        __items[size] = _item;
-        items = __items;
-    }
-
-    private void InsertItem(T _item, int _pos) {
-        final int size = items.length + 1;
-        final T[] __items = Arrays.copyOfRange(items, 0, _pos);
-        __items[_pos] = _item;
-        // todo
-        items = __items;
+    private T[] RemoveItem(T[] _array, int _pos) {
+        final int __size = _array.length - 1;
+        T[] __array = Arrays.copyOf(Arrays.copyOf(_array, _pos), __size);
+        for (int i = _pos; i < __size; i++) {
+            __array[i] = _array[i + 1];
+        }
+        return __array;
     }
 
     public LinkedList() {
-        Reset();
+        this.items = Reset();
+    }
+
+    public void insert(T _item, int _pos) {
+        this.items = InsertItem(this.items, _item, _pos);
     }
 
     public void add(T _item) {
-        addItem(_item);
+        this.items = AddItem(this.items, _item);
     }
 
     public void addLast(T _item) {
-        addItem(_item);
+        this.add(_item);
     }
 
-    public void addFirst()
+    public void addFirst(T _item) {
+        this.insert(_item, 0);
+    }
 
-    public void remove()
+    public void remove(int _pos) {
+        this.items = RemoveItem(this.items, _pos);
+    }
+
+    public int size() {
+        return this.items.length;
+    }
+
+    public T get(int _pos) {
+        return this.items[_pos];
+    }
 }
